@@ -1,3 +1,5 @@
+
+import sample from 'lodash.sample';
 import express from 'express';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
@@ -48,5 +50,43 @@ app.get('/hello', (req, res) => {
 // Handle the form from /hello and greet the user.
 app.get('/greet', (req, res) => {
   const name = req.query.name || 'stranger';
-  res.render('greet.html.njk', { name: name });
+  const compliment = sample(COMPLIMENTS);
+  res.render('greet.html', {name: name,  compliment: compliment
+  });
 });
+
+// adding a route and handler function for /game
+app.post('/game', (req, res) => {
+  console.log(req.body.game);
+  const answer = req.body.game;
+  console.log(answer, 'yes');
+
+  if(answer === 'yes'){
+    res.render('game.html')
+  } else {
+    res.render('goodbye.html')
+  }
+})
+
+app.get('/madlib', (req, res) => {
+  res. render('madlib.html');
+})
+
+app.post('/madlib', (req, res) => {
+  const name = req.body.person
+  const color = req.body.color
+  const noun = req.body.noun
+  const adjective = req.body.adjective
+  console.log(req.body)
+  res.render('madlib.html', {
+    user: name,
+    userColor: color,
+    userNouns: noun,
+    userAdjective: adjective
+  })
+})
+
+
+
+
+
